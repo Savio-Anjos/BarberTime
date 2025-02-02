@@ -9,8 +9,7 @@ Este projeto está utilizando as seguintes tecnologias:
 - [Prisma](https://www.prisma.io/)
 - [Docker](https://www.docker.com/)
 - [JWT](https://jwt.io/)
-- [Nodemailer](https://nodemailer.com/) (Para envio de e-mails)
-- [Vitest](https://vitest.dev/) (Para testes)
+- [Vitest](https://vitest.dev/)
 
 ## 📜 Descrição
 
