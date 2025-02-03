@@ -1,7 +1,7 @@
 import { UsersRepository } from '@/repositories/users-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
-import { compare, hash } from 'bcryptjs';
+import { hash } from 'bcryptjs';
 import { FetchUsersUseCase } from './fetch-users';
 
 let usersRepository: UsersRepository;

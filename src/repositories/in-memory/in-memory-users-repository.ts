@@ -18,6 +18,13 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     return user;
   }
+  public async findById(id: string): Promise<User | null> {
+    const user = this.items.find((user) => user.id === id);
+
+    if (!user) return null;
+
+    return user;
+  }
   public async findByEmail(email: string): Promise<User | null> {
     const user = this.items.find((user) => user.email === email);
 
@@ -27,5 +34,24 @@ export class InMemoryUsersRepository implements UsersRepository {
   }
   public async findAll(): Promise<User[]> {
     return this.items;
+  }
+  public async update(
+    id: string,
+    data: Prisma.UserUpdateInput
+  ): Promise<User> {
+    const userIndex = this.items.findIndex((user) => user.id === id);
+    const user = this.items[userIndex];
+
+    this.items[userIndex] = {
+      ...user,
+      name: typeof data.name === 'string' ? data.name : user.name,
+      email: typeof data.email === 'string' ? data.email : user.email,
+      password_hash:
+        typeof data.password_hash === 'string'
+          ? data.password_hash
+          : user.password_hash,
+    };
+
+    return this.items[userIndex];
   }
 }
