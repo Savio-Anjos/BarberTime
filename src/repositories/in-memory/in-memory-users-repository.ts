@@ -4,6 +4,7 @@ import { randomUUID } from 'crypto';
 
 export class InMemoryUsersRepository implements UsersRepository {
   public items: User[] = [];
+
   public async create(data: Prisma.UserCreateInput): Promise<User> {
     const user = {
       id: randomUUID(),
@@ -18,6 +19,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     return user;
   }
+
   public async findById(id: string): Promise<User | null> {
     const user = this.items.find((user) => user.id === id);
 
@@ -25,6 +27,7 @@ export class InMemoryUsersRepository implements UsersRepository {
 
     return user;
   }
+
   public async findByEmail(email: string): Promise<User | null> {
     const user = this.items.find((user) => user.email === email);
 
@@ -35,10 +38,8 @@ export class InMemoryUsersRepository implements UsersRepository {
   public async findAll(): Promise<User[]> {
     return this.items;
   }
-  public async update(
-    id: string,
-    data: Prisma.UserUpdateInput
-  ): Promise<User> {
+
+  public async update(id: string, data: Prisma.UserUpdateInput): Promise<User> {
     const userIndex = this.items.findIndex((user) => user.id === id);
     const user = this.items[userIndex];
 
@@ -53,5 +54,13 @@ export class InMemoryUsersRepository implements UsersRepository {
     };
 
     return this.items[userIndex];
+  }
+
+  public async delete(id: string): Promise<User> {
+    const userIndex = this.items.findIndex((user) => user.id === id);
+    const user = this.items[userIndex];
+    this.items = this.items.filter((user) => user.id !== id);
+
+    return user;
   }
 }
