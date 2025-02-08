@@ -2,32 +2,29 @@ import { UsersRepository } from '@/repositories/users-repository';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { InMemoryUsersRepository } from '@/repositories/in-memory/in-memory-users-repository';
 import { hash } from 'bcryptjs';
-import { UpdateUserUseCase } from './update-user';
+import { DeleteUserUseCase } from './delete-user';
 
 let usersRepository: UsersRepository;
-let sut: UpdateUserUseCase;
+let sut: DeleteUserUseCase;
 
-describe('Update User Use Case', () => {
+describe('Delete User Use Case', () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepository();
-    sut = new UpdateUserUseCase(usersRepository);
+    sut = new DeleteUserUseCase(usersRepository);
   });
 
-  it('should be able to update a user', async () => {
+  it('should be able to delete a user', async () => {
     const user = await usersRepository.create({
       name: 'John Doe',
       email: 'johndoe@gmail.com',
       password_hash: await hash('123456', 6),
     });
 
-    const { updatedUser } = await sut.execute({
+    const { deletedUser } = await sut.execute({
       id: user.id,
-      name: 'Sávio Doe',
-      email: 'saviodoe@gmail.com',
-      password: 'saviodoe123',
     });
 
-    expect(updatedUser.name).toEqual('Sávio Doe');
-    expect(updatedUser.email).toEqual('saviodoe@gmail.com');
+    expect(deletedUser.name).toEqual('John Doe');
+    expect(deletedUser.email).toEqual('johndoe@gmail.com');
   });
 });
